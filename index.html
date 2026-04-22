@@ -81,6 +81,10 @@ async function loadSettings() {
 }
 
 function updateHomeUI() {
+  // Defer to next frame to ensure DOM is ready
+  requestAnimationFrame(() => _updateHomeUI());
+}
+function _updateHomeUI() {
   const loyaltyVal = appSettings.loyaltyValue || '50% de desconto ou 8 gyozas grátis';
   const welcomeVal = appSettings.welcomeValue || '15% de desconto';
   const stampsN = STAMPS_TO_WIN || 5;
@@ -115,7 +119,7 @@ function updateHomeUI() {
   // Card — loyalty coupon benefit label (when unlocked)
   const loyaltyBenefitEl = document.getElementById('loyalty-benefit-label');
   if (loyaltyBenefitEl) loyaltyBenefitEl.textContent = loyaltyVal;
-}
+} // end _updateHomeUI
 
 function formatBenefit(type, value) {
   // type is ignored — value is now free text describing the full benefit
@@ -1354,7 +1358,7 @@ window.showToast = (msg) => {
       <h2>Cartão de Fidelidade</h2>
       <p>A cada <strong>R$50 em pedidos</strong> você ganha 1 selo.<br><strong id="home-loyalty-benefit">5 selos = cupom de 50% de desconto ou 8 gyozas grátis!</strong></p>
       <button class="btn btn-red" onclick="showView('view-register')">Criar meu cartão →</button>
-      <button class="btn btn-hook" id="home-welcome-hook" onclick="showView('view-register')">🎁 Ganhe 15% OFF na 1ª compra — Cadastre-se agora</button>
+      <button class="btn btn-hook" id="home-welcome-hook" onclick="showView('view-register')" style="display:none">🎁 Ganhe 15% OFF na 1ª compra — Cadastre-se agora</button>
       <button class="btn btn-outline-red" onclick="loginFlow()">Já tenho conta</button>
     </div>
     <button class="btn btn-ghost" onclick="showAdminLogin()">Painel Admin</button>
